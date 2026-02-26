@@ -1,0 +1,31 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: ["master"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Поправил: должно быть через дефис, а не двоеточие
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: build
+        run: docker build . -t sergeyvolro/api-gateway
+
+      - name: publish image
+        run: |
+          docker login -u sergeyvolro -p ${{ secrets.DOCKER_HUB_TOKEN }}
+          docker push sergeyvolro/api-gateway
+
+      - name: update deployment with image digest
+        run: |
+          IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' sergeyvolro/api-gateway)
+          echo "Using image: $IMAGE_DIGEST"
+          
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          
+          KUBECONFIG=kubeconfig.yaml kubectl set image deployment/api-gateway api-gateway=$IMAGE_DIGEST -n deep-voice
+          
+          rm kubeconfig.yaml
