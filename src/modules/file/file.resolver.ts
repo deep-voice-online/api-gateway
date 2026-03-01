@@ -19,7 +19,7 @@ export class FileResolver {
 
   //todo забирать userId из req
   @Mutation(() => UploadResponseGql)
-  public initializeUpload(
+  public fileInitializeUpload(
     @Context('req') req: Request,
     @Args('data') dto: UploadRequestGql,
   ) {
@@ -28,18 +28,18 @@ export class FileResolver {
   }
 
   @Query(() => DownloadLinkResponseGql)
-  public getDownloadLink(@Args('data') dto: FileIdRequestGql) {
+  public fileInetDownloadLink(@Args('data') dto: FileIdRequestGql) {
     return this.fileService.getDownloadLink(dto);
   }
 
   //todo забирать userId из req
   @Query(() => FileListResponseGql)
-  public getUserFiles(@Args('data') dto: UserFileRequestGql) {
+  public fileGetUserFiles(@Args('data') dto: UserFileRequestGql) {
     return this.fileService.getUserFiles(dto);
   }
 
   @Query(() => FileInfoGql)
-  public getFileInfo(@Args('data') dto: FileIdRequestGql) {
+  public fileGetFileInfo(@Args('data') dto: FileIdRequestGql) {
     return this.fileService.getFileInfo(dto);
   }
 }

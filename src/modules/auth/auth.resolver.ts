@@ -25,12 +25,12 @@ export class AuthResolver {
   }
 
   @Mutation(() => SuccessResponseGql)
-  public async register(@Args('data') dto: RegisterRequestGql) {
+  public async authRegister(@Args('data') dto: RegisterRequestGql) {
     return this.authService.register(dto);
   }
 
   @Mutation(() => JwtResponseGql)
-  public async confirmRegister(
+  public async authConfirmRegister(
     @Context('res') res: Response,
     @Args('data') dto: ConfirmRegisterRequestGql,
   ) {
@@ -40,7 +40,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => JwtResponseGql)
-  public async login(
+  public async authLogin(
     @Context('res') res: Response,
     @Args('data') dto: LoginRequestGql,
   ) {
@@ -50,7 +50,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => JwtResponseGql)
-  public async refresh(
+  public async authRefresh(
     @Context('res') res: Response,
     @Context('req') req: Request,
   ) {
@@ -62,7 +62,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => SuccessResponseGql)
-  public logout(@Context('res') res: Response) {
+  public authLogout(@Context('res') res: Response) {
     res.clearCookie('refreshToken');
     return { ok: true };
   }
