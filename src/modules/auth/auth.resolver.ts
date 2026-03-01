@@ -5,7 +5,7 @@ import {
   ConfirmRegisterRequestGql,
   LoginRequestGql,
   RegisterRequestGql,
-} from './dto/request';
+} from './dto/requests';
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { isDev } from '../../common/utils/is-dev.util';

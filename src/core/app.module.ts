@@ -9,6 +9,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { JwtStrategy } from '../common/strategies';
+import { FileModule } from '../modules/file/file.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { JwtStrategy } from '../common/strategies';
       isGlobal: true,
     }),
     AuthModule,
+    FileModule,
     InfraModule,
   ],
   controllers: [AppController],

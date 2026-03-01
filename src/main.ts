@@ -13,7 +13,7 @@ async function bootstrap() {
   const port = config.getOrThrow<number>('HTTP_PORT');
   await app.listen(port);
   console.log(`Running on http://localhost:${port}`);
-  console.log(`GraphQL running on http://localhost:${port}/grapql`);
+  console.log(`GraphQL running on http://localhost:${port}/graphql`);
 }
 
 bootstrap();
