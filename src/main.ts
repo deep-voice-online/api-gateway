@@ -11,6 +11,11 @@ async function bootstrap() {
 
   const config = app.get(ConfigService);
 
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+
   app.use(cookieParser());
 
   const port = config.getOrThrow<number>('HTTP_PORT');
