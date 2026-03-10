@@ -1,12 +1,11 @@
-import { Request } from 'express';
+import 'express';
+import { UserRoles } from './user-roles.enum';
 
 declare module 'express' {
   interface Request {
     user: {
       sub: string;
-      refreshTokenId: string;
-      exp: number;
-      iat: number;
+      role: UserRoles;
     };
   }
 }

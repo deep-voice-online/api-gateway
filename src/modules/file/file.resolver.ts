@@ -10,9 +10,11 @@ import {
 import {
   FileIdRequestGql,
   UploadRequestGql,
-  UserFileRequestGql,
 } from './dto/requests';
+import { RolesProtected } from '../../common/decorators';
+import { UserRoles } from '../../common/types/user-roles.enum';
 
+@RolesProtected(UserRoles.USER)
 @Resolver()
 export class FileResolver {
   constructor(private readonly fileService: FileService) {}
@@ -24,7 +26,7 @@ export class FileResolver {
     @Args('data') dto: UploadRequestGql,
   ) {
     // return this.fileService.initializeUpload({ ...dto, userId: req.user.sub });
-    return this.fileService.initializeUpload(dto);
+    return this.fileService.initializeUpload({ ...dto, userId: req.user.sub });
   }
 
   @Query(() => DownloadLinkResponseGql)
@@ -34,8 +36,8 @@ export class FileResolver {
 
   //todo забирать userId из req
   @Query(() => FileListResponseGql)
-  public fileGetUserFiles(@Args('data') dto: UserFileRequestGql) {
-    return this.fileService.getUserFiles(dto);
+  public fileGetUserFiles(@Context('req') req: Request) {
+    return this.fileService.getUserFiles({ userId: req.user.sub });
   }
 
   @Query(() => FileInfoGql)

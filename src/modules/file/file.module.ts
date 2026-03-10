@@ -15,8 +15,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           transport: Transport.GRPC,
           options: {
             package: 'file.v1',
-            protoPath: './node_modules/@deepvoicerut/contracts/proto/file.proto',
-            url: config.getOrThrow<string>('FILE_GRPC', 'localhost:50051'),
+            protoPath:
+              './node_modules/@deepvoicerut/contracts/proto/file.proto',
+            url: config.getOrThrow<string>('FILE_GRPC', 'localhost:50053'),
+            loader: {
+              keepCase: false,
+              longs: String,
+              enums: String,
+              defaults: true,
+            },
           },
         }),
       },

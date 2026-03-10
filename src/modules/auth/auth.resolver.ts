@@ -1,6 +1,10 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { AuthService } from './auth.service';
-import { JwtResponseGql, SuccessResponseGql } from './dto/responses';
+import {
+  JwtResponseGql,
+  RefreshAccessTokenResponseGql,
+  SuccessResponseGql,
+} from './dto/responses';
 import {
   ConfirmRegisterRequestGql,
   LoginRequestGql,
@@ -9,7 +13,7 @@ import {
 import { Request, Response } from 'express';
 import { ConfigService } from '@nestjs/config';
 import { isDev } from '../../common/utils/is-dev.util';
-import { RolesProtected } from '../../common/decorators';
+import { Public } from '../../common/decorators/public-protected.decorator';
 
 @Resolver()
 export class AuthResolver {
@@ -18,7 +22,6 @@ export class AuthResolver {
     private readonly configService: ConfigService,
   ) {}
 
-  @RolesProtected()
   @Query(() => String)
   public ping() {
     return 'pong';
@@ -49,16 +52,11 @@ export class AuthResolver {
     return response;
   }
 
-  @Mutation(() => JwtResponseGql)
-  public async authRefresh(
-    @Context('res') res: Response,
-    @Context('req') req: Request,
-  ) {
-    const response = await this.authService.refresh({
-      refreshToken: req.user.refreshTokenId,
+  @Mutation(() => RefreshAccessTokenResponseGql)
+  public async authRefreshAccessToken(@Context('req') req: Request) {
+    return await this.authService.refreshAccessToken({
+      refreshToken: req.cookies['refreshToken'] as string,
     });
-    this.setCookie(res, response.refreshToken);
-    return response;
   }
 
   @Mutation(() => SuccessResponseGql)
@@ -73,5 +71,10 @@ export class AuthResolver {
       secure: !isDev(this.configService),
       sameSite: 'lax',
     });
+  }
+
+  @Query(() => String)
+  public getTokens(@Context('req') req: Request) {
+    return `accessToken ${JSON.stringify(req.user)}\nrefreshToken: ${req.cookies['refreshToken'] as string}`;
   }
 }

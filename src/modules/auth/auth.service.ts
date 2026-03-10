@@ -5,9 +5,10 @@ import {
   ConfirmRegisterRequest,
   RegisterRequest,
   LoginRequest,
-  RefreshRequest,
   JwtResponse,
   SuccessResponse,
+  RefreshAccessTokenResponse,
+  RefreshAccessTokenRequest,
 } from '@deepvoicerut/contracts/gen/auth';
 import { firstValueFrom } from 'rxjs';
 
@@ -33,11 +34,9 @@ export class AuthService {
     return firstValueFrom(this.authClient.login(dto));
   }
 
-  public async refresh(dto: RefreshRequest): Promise<JwtResponse> {
-    return firstValueFrom(this.authClient.refresh(dto));
-  }
-
-  public async logout(): Promise<SuccessResponse> {
-    return firstValueFrom(this.authClient.logout({}));
+  public async refreshAccessToken(
+    dto: RefreshAccessTokenRequest,
+  ): Promise<RefreshAccessTokenResponse> {
+    return firstValueFrom(this.authClient.refreshAccessToken(dto));
   }
 }

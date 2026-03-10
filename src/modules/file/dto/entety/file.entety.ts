@@ -1,8 +1,8 @@
-import { FileInfo, FileList } from '@deepvoicerut/contracts/gen/file';
+import { File } from '@deepvoicerut/contracts/gen/file';
 import { Field, ObjectType } from '@nestjs/graphql';
 
 @ObjectType()
-export class FileInfoGql implements FileInfo {
+export class FileGql implements File {
   @Field(() => String)
   id: string;
 
@@ -24,12 +24,6 @@ export class FileInfoGql implements FileInfo {
   @Field(() => String, { description: 'UPLOADING, READY, DELETED' })
   status: string;
 
-  @Field(() => String, { description: 'ISO дата создания' })
-  createdAt: string;
-}
-
-@ObjectType()
-export class FileListResponseGql implements FileList {
-  @Field(() => [FileInfoGql])
-  files: FileInfo[];
+  @Field(() => Date, { description: 'ISO дата создания' })
+  createdAt: Date;
 }

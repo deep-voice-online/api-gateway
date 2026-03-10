@@ -7,5 +7,5 @@ export class ConfirmRegisterRequestGql implements ConfirmRegisterRequest {
   email: string;
 
   @Field()
-  code: number;
+  otp: number;
 }

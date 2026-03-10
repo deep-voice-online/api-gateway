@@ -17,7 +17,7 @@ import { AuthResolver } from './auth.resolver';
             package: 'auth.v1',
             protoPath:
               './node_modules/@deepvoicerut/contracts/proto/auth.proto',
-            url: config.getOrThrow<string>('AUTH_GRPC', 'localhost:50051'),
+            url: config.getOrThrow<string>('AUTH_GRPC_URL', 'localhost:50051'),
           },
         }),
       },

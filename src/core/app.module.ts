@@ -10,6 +10,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
 import { JwtStrategy } from '../common/strategies';
 import { FileModule } from '../modules/file/file.module';
+import { TranscribeModule } from '../modules/transcribe/transcribe.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { FileModule } from '../modules/file/file.module';
     }),
     AuthModule,
     FileModule,
+    TranscribeModule,
     InfraModule,
   ],
   controllers: [AppController],
